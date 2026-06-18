@@ -56,7 +56,7 @@ const storageAndLegsAll = [
     { storage: 'No Storage', legs: ['Dark Wood']},
     { storage: '4 Drawer', legs: ['Dark Wood']},
     { storage: '2 Drawer', legs: ['Dark Wood']},
-    { storage: 'Bed Frame', legs: ['Brushed Stell', 'Brushed Bronze']},
+    { storage: 'Bed Frame', legs: ['Brushed Steel', 'Brushed Bronze']},
     { storage: 'Ottoman', legs: ['Wooden Wedge']},
 ];
 
