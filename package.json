@@ -1,0 +1,13 @@
+{
+  "name": "vison3-image-crawler",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Tool to crawl all vision3 hosted images in order to force their server to pre-cache every image",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Phil Kendall",
+  "license": "ISC"
+}
