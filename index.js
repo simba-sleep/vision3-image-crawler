@@ -68,7 +68,7 @@ const storageAndLegsNoBedframe = [
 ];
 
 const bedsAndRooms = [
-    { bed: 'Hebden Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsAll},
+    { bed: 'Hebden Bed', roomset: 'roomset3', storagesAndLegs: storageAndLegsAll},
     { bed: 'Camden Bed', roomset: 'roomset8', storagesAndLegs: storageAndLegsAll},
     { bed: 'Putney Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsNoBedframe},
 ];
@@ -105,8 +105,11 @@ function buildUrls() {
       for (const leg of legs) {
         for (const colour of colours) {
           for (const { view, crop, outputs, animations } of viewsCropsAndOutputs) {
+            if (animations && !optionalAnimations) {
+                continue; // Skip if animations are required but not available for this storage/leg combination
+            }
             const cropPart = crop ? `&crop=${crop}` : '';
-            const animationsPart = animations ? `&animations=${optionalAnimations}` : '';
+            const animationsPart = animations ? optionalAnimations ? `&animations=${optionalAnimations}` : '' : '';
             const outputList = outputs?.length ? outputs : [null];
 
             for (const output of outputList) {
@@ -115,7 +118,7 @@ function buildUrls() {
               const url = urlPatternRoomset
                 .replace('{{BED}}', encodeURIComponent(bed))
                 .replace('{{STORAGE}}', encodeURIComponent(storage))
-                .replace('{{COLOUR}}', colour)
+                .replace('{{COLOUR}}', encodeURIComponent(colour))
                 .replace('{{LEGS}}', encodeURIComponent(leg))
                 .replace('{{ROOMSET}}', roomset)
                 .replace('{{VIEW}}', view)
