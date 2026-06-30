@@ -25,6 +25,11 @@ if (isNaN(maxWorkers) || maxWorkers < 1) {
 
 const urlPatternRoomset = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&roomset={{ROOMSET}}&size=4096x4096&view={{VIEW}}&encoding=webp{{CROP}}{{OUTPUT}}{{ANIMATIONS}}';
 const urlPatternNonRoomset = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&size=4096x4096&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&encoding=webp{{CROP}}{{OUTPUT}}';
+const urlPatternBundleHero = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096&encoding=webp{{OUTPUT}}';
+const urlPatternBundleCard = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096{{OUTPUT}}&encoding=webp';
+const urlPatternBundleMain = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096&background=eff2f4&encoding=webp{{OUTPUT}}';
+const urlPatternBundleSlider = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096&encoding=webp{{OUTPUT}}';
+const urlPatternRangeCard = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}&size=4096x4096{{OUTPUT}}{{CROP}}&encoding=webp';
 
 const outputCoversDesktopMain = [
     '572x353',
@@ -52,12 +57,46 @@ const outputCoversMobile = [
     '2046x2046'
 ];
 
+const outputCoversBundleHero = [
+  '913x500',
+  '240x131',
+  '275x151',
+  '320x175',
+  '420x175',
+  '480x263',
+  '800x438',
+  '840x460',
+  '960x526'
+]
+
+const outputCoversBundleCard = [
+  '246x145',
+]
+
+const outputCoversBundleMain = [
+  '850x500',
+  '913x537',
+  '240x141',
+  '320x188',
+  '480x282',
+  '840x494',
+  '960x565'
+]
+
+const outputCoversBundleSlider = [
+  '450x250',
+]
+
+const outputCoversRangeCard = [
+  '246x145',
+]
+
 const storageAndLegsAll = [
-    { storage: 'No Storage', legs: ['Dark Wood']},
-    { storage: '4 Drawer', legs: ['Dark Wood']},
-    { storage: '2 Drawer', legs: ['Dark Wood']},
-    { storage: 'Bed Frame', legs: ['Brushed Steel', 'Brushed Bronze']},
-    { storage: 'Ottoman', legs: ['Wooden Wedge']},
+    { storage: 'No Storage', legs: ['Dark Wood'], optionalAnimations: ''},
+    { storage: '4 Drawer', legs: ['Dark Wood'], optionalAnimations: 'RIGHT_STORAGE,RIGHT_BEHINDSTORAGE'},
+    { storage: '2 Drawer', legs: ['Dark Wood'], optionalAnimations: 'RIGHT_STORAGE'},
+    { storage: 'Bed Frame', legs: ['Brushed Steel', 'Brushed Bronze'], optionalAnimations: ''},
+    { storage: 'Ottoman', legs: ['Wooden Wedge'], optionalAnimations: 'LIFT_UP'},
 ];
 
 const storageAndLegsNoBedframe = [
@@ -68,9 +107,14 @@ const storageAndLegsNoBedframe = [
 ];
 
 const bedsAndRooms = [
-    { bed: 'Hebden Bed', roomset: 'roomset3', storagesAndLegs: storageAndLegsAll},
-    { bed: 'Camden Bed', roomset: 'roomset8', storagesAndLegs: storageAndLegsAll},
-    { bed: 'Putney Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsNoBedframe},
+    // { bed: 'Hebden Bed', roomset: 'roomset3', storagesAndLegs: storageAndLegsAll},
+    // { bed: 'Camden Bed', roomset: 'roomset8', storagesAndLegs: storageAndLegsAll},
+    // { bed: 'Putney Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsNoBedframe},
+    // { bed: 'Thorner Bed', roomset: 'roomset10', storagesAndLegs: storageAndLegsAll},
+    // { bed: 'Didsbury Bed', roomset: 'roomset15', storagesAndLegs: storageAndLegsAll},
+    // { bed: 'Wilmslow Bed', roomset: 'roomset2', storagesAndLegs: storageAndLegsAll},
+    // { bed: 'Ludlow Bed', roomset: 'roomset20', storagesAndLegs: storageAndLegsAll},
+    { bed: 'Fife Bed', roomset: 'roomset17', storagesAndLegs: storageAndLegsAll},
 ];
 
 const colours = ['Fossil Grey', 'Oatmeal', 'Taupe', 'Charcoal Grey','Silver Grey', 'Arctic Grey', 'Ebony', 'Ecru','Mole','Chocolate', 'Olive', 'Oxblood', 'Navy', 'Mink', 'Dove', 'Anthracite', 'Cream', 'Latte', 'Nickel', 'Asphalt', 'Stone', 'Mocha'];
@@ -84,7 +128,7 @@ const viewsCropsAndOutputs = [
     { view: 'view3', crop: '0x512x4096x4096', outputs: outputCoversMobile, animations: false},
     { view: 'view4', crop: '0x912x3696x4096', outputs: outputCoversDesktopSecondary, animations: false},
     { view: 'view4', crop: '0x768x3750x4096', outputs: outputCoversMobile, animations: false},
-    { view: 'view5', crop: '0x300x3750x4096', outputs: outputCoversDesktopSecondary, animations: false},
+    { view: 'view5', crop: '150x700x3800x4096', outputs: outputCoversDesktopSecondary, animations: false},
     { view: 'view5', crop: '', outputs: outputCoversMobile, animations: false},
     { view: 'view6', crop: '0x768x3850x4096', outputs: outputCoversDesktopSecondary, animations: true},
     { view: 'view6', crop: '0x1124x3800x3900', outputs: outputCoversMobile, animations: true},
@@ -93,7 +137,16 @@ const viewsCropsAndOutputs = [
 const anglesAndDistances = [
     { angleX: '90.0', angleY: '84.0', distance: '2.5', crop: '0x0x4096x3550', outputs: outputCoversDesktopSecondary},
     { angleX: '90.0', angleY: '84.0', distance: '2.5', crop: '0x0x4096x3550', outputs: outputCoversMobile},
+    
 ];
+
+const anglesDistancesAndZooms = [
+  { angleX: '50.0', angleY: '80.0', distance: '3.0', zoom: '1.0', crop: '0x100x4096x3500', outputs: outputCoversBundleHero, urlPattern: urlPatternBundleHero},
+  { angleX: '50.0', angleY: '90.0', distance: '2.5', zoom: '1.0', crop: '0x100x4096x3100', outputs: outputCoversBundleCard, urlPattern: urlPatternBundleCard},
+  { angleX: '50.0', angleY: '90.0', distance: '2.5', zoom: '1.0', crop: '0x200x4096x3096', outputs: outputCoversBundleMain, urlPattern: urlPatternBundleMain},
+  { angleX: '50', angleY: '90', distance: '2.0', zoom: '1.0', crop: '0x50x4096x3100', outputs: outputCoversBundleSlider, urlPattern: urlPatternBundleSlider},
+  { angleX: '50.0', angleY: '90.0', distance: '2.5', zoom: '1.0', crop: '0x100x4096x3100', outputs: outputCoversRangeCard, urlPattern: urlPatternRangeCard},
+]
 
 // Build all unique URLs
 function buildUrls() {
@@ -106,6 +159,7 @@ function buildUrls() {
         for (const colour of colours) {
           for (const { view, crop, outputs, animations } of viewsCropsAndOutputs) {
             if (animations && !optionalAnimations) {
+               console.log(`Skipping ${bed} ${storage} ${leg} ${colour} ${view} because animations are required but not available.`);
                 continue; // Skip if animations are required but not available for this storage/leg combination
             }
             const cropPart = crop ? `&crop=${crop}` : '';
@@ -148,6 +202,32 @@ function buildUrls() {
                 .replace('{{ANGLEX}}', angleX)
                 .replace('{{ANGLEY}}', angleY)
                 .replace('{{DISTANCE}}', distance)
+                .replace('{{CROP}}', cropPart)
+                .replace('{{OUTPUT}}', outputPart);
+
+              if (!seen.has(url)) {
+                seen.add(url);
+                urls.push(url);
+              }
+            }
+          }
+
+          for (const { angleX, angleY, distance, zoom, crop, outputs, urlPattern } of anglesDistancesAndZooms) {
+            const cropPart = crop ? `&crop=${crop}` : '';
+            const outputList = outputs?.length ? outputs : [null];
+
+            for (const output of outputList) {
+              const outputPart = output ? `&output_cover=${output}` : '';
+
+              const url = urlPattern
+                .replace('{{BED}}', encodeURIComponent(bed))
+                .replace('{{STORAGE}}', encodeURIComponent(storage))
+                .replace('{{COLOUR}}', colour)
+                .replace('{{LEGS}}', encodeURIComponent(leg))
+                .replace('{{ANGLEX}}', angleX)
+                .replace('{{ANGLEY}}', angleY)
+                .replace('{{DISTANCE}}', distance)
+                .replace('{{ZOOM}}', zoom)
                 .replace('{{CROP}}', cropPart)
                 .replace('{{OUTPUT}}', outputPart);
 
