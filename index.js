@@ -8,7 +8,7 @@ const workerPath = join(__dirname, "worker.js");
 
 const { values } = parseArgs({
   options: {
-    workers: { type: "string", short: "w", default: "10" },
+    workers: { type: "string", short: "w", default: "30" },
     test: { type: "boolean", short: "t", default: false },
   },
   strict: true,
@@ -43,7 +43,8 @@ const outputCoversDesktopSecondary = [
     '281x173',
     '562x347',
     '484x299',
-    '968x598'
+    '968x598',
+    '4096x4096' // zoomed in image
 ];
 
 const outputCoversMobile = [
@@ -107,14 +108,20 @@ const storageAndLegsNoBedframe = [
 ];
 
 const bedsAndRooms = [
-    // { bed: 'Hebden Bed', roomset: 'roomset3', storagesAndLegs: storageAndLegsAll},
-    // { bed: 'Camden Bed', roomset: 'roomset8', storagesAndLegs: storageAndLegsAll},
-    // { bed: 'Putney Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsNoBedframe},
-    // { bed: 'Thorner Bed', roomset: 'roomset10', storagesAndLegs: storageAndLegsAll},
+    { bed: 'Hebden Bed', roomset: 'roomset3', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Camden Bed', roomset: 'roomset8', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Putney Bed', roomset: 'roomset5', storagesAndLegs: storageAndLegsNoBedframe},
+    //{ bed: 'Thorner Bed', roomset: 'roomset10', storagesAndLegs: storageAndLegsAll},
     // { bed: 'Didsbury Bed', roomset: 'roomset15', storagesAndLegs: storageAndLegsAll},
-    // { bed: 'Wilmslow Bed', roomset: 'roomset2', storagesAndLegs: storageAndLegsAll},
-    // { bed: 'Ludlow Bed', roomset: 'roomset20', storagesAndLegs: storageAndLegsAll},
-    { bed: 'Fife Bed', roomset: 'roomset17', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Wilmslow Bed', roomset: 'roomset2', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Ludlow Bed', roomset: 'roomset20', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Fife Bed', roomset: 'roomset17', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Harewood Bed', roomset: 'roomset9', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Jesmond Bed', roomset: 'roomset11', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Richmond Bed', roomset: 'roomset16', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Saltaire Bed', roomset: 'roomset12', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Melrose Bed', roomset: 'roomset6', storagesAndLegs: storageAndLegsAll},
+    //{ bed: 'Kelham Bed', roomset: 'roomset18', storagesAndLegs: storageAndLegsAll},
 ];
 
 const colours = ['Fossil Grey', 'Oatmeal', 'Taupe', 'Charcoal Grey','Silver Grey', 'Arctic Grey', 'Ebony', 'Ecru','Mole','Chocolate', 'Olive', 'Oxblood', 'Navy', 'Mink', 'Dove', 'Anthracite', 'Cream', 'Latte', 'Nickel', 'Asphalt', 'Stone', 'Mocha'];
@@ -265,6 +272,7 @@ let urlIndex = 0;
 let completed = 0;
 let succeeded = 0;
 let failed = 0;
+const failedUrls = [];
 
 function sendNextUrl(worker) {
   if (urlIndex < urls.length) {
@@ -288,10 +296,11 @@ for (let i = 0; i < workerCount; i++) {
     completed++;
     if (msg.success) {
       succeeded++;
-      console.log(`[${completed}/${urls.length}] Worker ${msg.workerId}: ${msg.bytes} bytes - ${msg.url}`);
+      console.log(`[${completed}/${urls.length}] Worker ${msg.workerId}: ${msg.bytes} bytes (${msg.time}s) - ${msg.url}`);
     } else {
       failed++;
-      console.error(`[${completed}/${urls.length}] Worker ${msg.workerId}: FAILED ${msg.error} - ${msg.url}`);
+      failedUrls.push(msg.url);
+      console.error(`[${completed}/${urls.length}] Worker ${msg.workerId}: FAILED ${msg.error} (${msg.time}s) - ${msg.url}`);
     }
 
     sendNextUrl(worker);
@@ -299,6 +308,12 @@ for (let i = 0; i < workerCount; i++) {
     if (completed === urls.length) {
       const elapsed = ((performance.now() - start) / 1000).toFixed(2);
       console.log(`\nDone in ${elapsed}s — ${succeeded} succeeded, ${failed} failed out of ${urls.length} URLs`);
+      if (failedUrls.length > 0) {
+        console.log(`\nFailed URLs:`);
+        for (const url of failedUrls) {
+          console.log(url);
+        }
+      }
     }
   });
 

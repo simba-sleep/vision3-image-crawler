@@ -8,8 +8,10 @@ parentPort.on("message", async (msg) => {
   }
 
   const { url } = msg;
+  const startTime = performance.now();
   try {
     const response = await fetch(url);
+    const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
 
     if (!response.ok) {
       parentPort.postMessage({
@@ -17,6 +19,7 @@ parentPort.on("message", async (msg) => {
         success: false,
         error: `HTTP ${response.status} ${response.statusText}`,
         url,
+        time: elapsed,
       });
     } else {
       const buffer = await response.arrayBuffer();
@@ -25,14 +28,17 @@ parentPort.on("message", async (msg) => {
         success: true,
         bytes: buffer.byteLength,
         url,
+        time: elapsed,
       });
     }
   } catch (err) {
+    const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
     parentPort.postMessage({
       workerId,
       success: false,
       error: err.message,
       url,
+      time: elapsed,
     });
   }
 });
