@@ -23,7 +23,7 @@ if (isNaN(maxWorkers) || maxWorkers < 1) {
   process.exit(1);
 }
 
-const urlPatternRoomset = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&roomset={{ROOMSET}}&size=4096x4096&view={{VIEW}}&encoding=webp{{CROP}}{{OUTPUT}}{{ANIMATIONS}}';
+const urlPatternRoomset = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&roomset={{ROOMSET}}&size=4096x4096&view={{VIEW}}&encoding=webp{{ANIMATIONS}}{{CROP}}{{OUTPUT}}';
 const urlPatternNonRoomset = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&size=4096x4096&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&encoding=webp{{CROP}}{{OUTPUT}}';
 const urlPatternBundleHero = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096&encoding=webp{{OUTPUT}}';
 const urlPatternBundleCard = 'https://vp.img.haze.tools/simba_{{BED}}%20{{STORAGE}}?materials=UPHOLSTERY:{{COLOUR}}%2CLEGS:{{LEGS}}%2CBEDDING:BASEBEDDING%2CHEADBOARDBACK:BASE&angle_x={{ANGLEX}}&angle_y={{ANGLEY}}&distance={{DISTANCE}}&zoom={{ZOOM}}{{CROP}}&size=4096x4096{{OUTPUT}}&encoding=webp';
