@@ -2,6 +2,25 @@ import { parentPort, workerData } from "node:worker_threads";
 
 const { workerId } = workerData;
 
+function buildValidatedUrl(baseUrl) {
+  try {
+    if (baseUrl.includes("/../") || /\/%2e%2e\//i.test(baseUrl)) {
+      throw new Error("Invalid path");
+    }
+    const url = new URL(baseUrl);
+    const allowedDomains = ["example.com"]; // add your allowed domains here
+    if (!allowedDomains.includes(url.hostname)) {
+      throw new Error("Invalid host");
+    }
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("Invalid protocol");
+    }
+    return url.href;
+  } catch {
+    throw new Error("Invalid URL");
+  }
+}
+
 parentPort.on("message", async (msg) => {
   if (msg.type === "done") {
     process.exit(0);
@@ -10,7 +29,7 @@ parentPort.on("message", async (msg) => {
   const { url } = msg;
   const startTime = performance.now();
   try {
-    const response = await fetch(url);
+    const response = await fetch(buildValidatedUrl(url));
     const elapsed = ((performance.now() - startTime) / 1000).toFixed(2);
 
     if (!response.ok) {
