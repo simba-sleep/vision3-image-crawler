@@ -2,23 +2,30 @@ import { parentPort, workerData } from "node:worker_threads";
 
 const { workerId } = workerData;
 
-function buildValidatedUrl(baseUrl) {
+// All crawl targets live on a single fixed origin. Only the path + query are
+// taken from the incoming message; the origin is never caller-controlled.
+const ALLOWED_ORIGIN = "https://vp.img.haze.tools";
+const ALLOWED_PATH_PREFIX = "/simba_";
+
+function buildValidatedUrl(input) {
+  let parsed;
   try {
-    if (baseUrl.includes("/../") || /\/%2e%2e\//i.test(baseUrl)) {
-      throw new Error("Invalid path");
-    }
-    const url = new URL(baseUrl);
-    const allowedDomains = ["example.com"]; // add your allowed domains here
-    if (!allowedDomains.includes(url.hostname)) {
-      throw new Error("Invalid host");
-    }
-    if (!["http:", "https:"].includes(url.protocol)) {
-      throw new Error("Invalid protocol");
-    }
-    return url.href;
+    parsed = new URL(input);
   } catch {
     throw new Error("Invalid URL");
   }
+  if (parsed.origin !== ALLOWED_ORIGIN) {
+    throw new Error(`Disallowed origin: ${parsed.origin}`);
+  }
+  if (parsed.username || parsed.password) {
+    throw new Error("Credentials not allowed in URL");
+  }
+  // Rebuild against the fixed origin so only path + query come from input.
+  const url = new URL(`${parsed.pathname}${parsed.search}`, ALLOWED_ORIGIN);
+  if (url.origin !== ALLOWED_ORIGIN || !url.pathname.startsWith(ALLOWED_PATH_PREFIX)) {
+    throw new Error(`Disallowed path: ${url.pathname}`);
+  }
+  return url.href;
 }
 
 parentPort.on("message", async (msg) => {
